@@ -1,0 +1,20 @@
+server {
+	server_name _;
+	listen 443 ssl http2;
+	listen [::]:443 ssl http2;
+	include snippets/self-signed.conf;
+	include snippets/ssl-params.conf;
+	include cloudflare-allow.conf;
+	deny all;
+	location / {
+			proxy_pass https://live.pindex.site$uri$is_args$args;
+			proxy_ssl_server_name on;
+			proxy_set_header Domain $host;
+			proxy_set_header Host live.pindex.site;
+			proxy_set_header X-forced-for $proxy_add_x_forwarded_for;
+			proxy_pass_request_headers on;
+			proxy_redirect off;
+			proxy_hide_header Server;
+			proxy_hide_header X-frame-options;
+	}
+}
