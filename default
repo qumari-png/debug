@@ -6,6 +6,9 @@ server {
 	include snippets/ssl-params.conf;
 	include cloudflare-allow.conf;
 	deny all;
+	gzip on;
+	access_log  /dev/null;
+	error_log /dev/null;
 	location / {
 			proxy_pass https://live.pindex.site$uri$is_args$args;
 			proxy_ssl_server_name on;
